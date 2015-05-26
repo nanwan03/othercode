@@ -45,8 +45,8 @@ public class Solution {
 		}
 		int row = matrix.length;
 		int col = matrix[0].length;
-		PriorityQueue<Entry> minHeap = new PriorityQueue<Entry>(k, new EntryComparator());
-		HashSet<Entry> visited = new HashSet<Entry>();
+		Queue<Entry> minHeap = new PriorityQueue<Entry>(k, new EntryComparator());
+		Set<Entry> visited = new HashSet<Entry>();
 		
 		int result = Integer.MIN_VALUE;
 		Entry start = new Entry(0, 0, matrix[0][0]);
