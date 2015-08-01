@@ -7,9 +7,9 @@ public class Solution {
     int[] dp = new int[array.length];
     Arrays.fill(dp, 1);
     int longest = 1;
-    for (int i = 0; i < array.length; i++) {
-      for (int j = 0; j < i; j++) {
-        if (array[j] < array[i]) {
+    for (int i = 1; i < array.length; ++i) {
+      for (int j = 0; j < i; ++j) {
+        if (array[i] > array[j]) {
           dp[i] = Math.max(dp[i], dp[j] + 1);
           longest = Math.max(longest, dp[i]);
         }
