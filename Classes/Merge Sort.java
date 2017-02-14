@@ -1,15 +1,16 @@
 public class Solution {
-  public void mergeSort(int[] array) {
-    // Write your solution here
+  public int[] mergeSort(int[] array) {
+    // Write your solution here.
     if (array == null || array.length == 0) {
-      return;
+      return array;
     }
     int[] helper = new int[array.length];
     mergeSort(array, helper, 0, array.length - 1);
+    return array;
   }
-  private void copyArray(int[] src, int[] desc, int left, int right) {
-    for (int i = left; i <= right; i++) {
-      desc[i] = src[i];
+  private void copyArray(int[] src, int[] des, int left, int right) {
+    for (int i = left; i <= right; ++i) {
+      des[i] = src[i];
     }
   }
   private void mergeSort(int[] array, int[] helper, int left, int right) {
@@ -26,7 +27,7 @@ public class Solution {
     int leftIndex = left;
     int rightIndex = mid + 1;
     while (leftIndex <= mid && rightIndex <= right) {
-      if (helper[leftIndex] <= helper[rightIndex]) {
+      if (helper[leftIndex] < helper[rightIndex]) {
         array[left++] = helper[leftIndex++];
       } else {
         array[left++] = helper[rightIndex++];
