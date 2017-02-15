@@ -7,15 +7,12 @@ public class Solution {
     minStack = new Stack<Integer>();
   }
   
-  public Integer pop() {
+  public int pop() {
     if (stack.isEmpty()) {
-      return null;
+      return -1;
     }
-    int temp = stack.pop();
-    if (temp == minStack.peek()) {
-      minStack.pop();
-    }
-    return temp;
+    Integer tmp = stack.pop();
+    return tmp == minStack.peek() ? minStack.pop() : tmp;
   }
   
   public void push(int element) {
@@ -25,16 +22,16 @@ public class Solution {
     }
   }
   
-  public Integer top() {
+  public int top() {
     if (stack.isEmpty()) {
-      return null;
+      return -1;
     }
     return stack.peek();
   }
   
-  public Integer min() {
+  public int min() {
     if (minStack.isEmpty()) {
-      return null;
+      return -1;
     }
     return minStack.peek();
   }
