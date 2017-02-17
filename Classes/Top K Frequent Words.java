@@ -7,17 +7,19 @@ public class Solution {
       this.freq = freq;
     }
   }
+  
   private class NodeComparator implements Comparator<Node> {
     public int compare(Node a, Node b) {
       return a.freq - b.freq;
     }
   }
-  public List<String> topKFrequent(List<String> combo, int k) {
-    // write your solution here
-    List<String> rst = new ArrayList<String>();
-    if (combo == null || combo.size() == 0 || k == 0) {
-      return rst;
+  
+  public String[] topKFrequent(String[] combo, int k) {
+    // Write your solution here.
+    if (combo == null || combo.length == 0 || k == 0) {
+      return new String[]{};
     }
+    List<String> rst = new ArrayList<String>();
     Map<String, Integer> map = new HashMap<String, Integer>();
     for (String str : combo) {
       if (!map.containsKey(str)) {
@@ -43,6 +45,10 @@ public class Solution {
       rst.add(heap.poll().str);
     }
     Collections.reverse(rst);
-    return rst;
+    String[] result = new String[rst.size()];
+    for (int i = 0; i < rst.size(); ++i) {
+      result[i] = rst.get(i);
+    }
+    return result;
   }
 }
