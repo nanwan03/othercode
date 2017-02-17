@@ -14,7 +14,7 @@ public class Solution {
       sb.append(str);
       sb.append(" ");
     }
-    sb.deleteCharAt(sb.length() - 1);
+    sb.setLength(sb.length() - 1);
     return sb.toString();
   }
 }
