@@ -6,7 +6,7 @@ public class Solution {
     }
     List<TreeNode> rst = new ArrayList<TreeNode>();
     int find = helper(rst, root, one, two);
-    if (rst.size() == 1) {
+    if (!rst.isEmpty()) {
       return rst.get(0);
     } else {
       return null;
@@ -24,7 +24,7 @@ public class Solution {
     int right = helper(rst, root.right, one, two);
     find = find + left + right;
     if (find == 2) {
-      if (rst.size() == 0) {
+      if (rst.isEmpty()) {
         rst.add(root);
       }
     }
