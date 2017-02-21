@@ -1,28 +1,28 @@
 public class Solution {
-  private int getHash(int[] count) {
-    int rst = 0;
-    for (int i : count) {
-      rst = rst * 31 + i;
-    }
-    return rst;
-  }
   List<Integer> allAnagrams(String s, String l) {
+    // Write your solution here.
     List<Integer> rst = new ArrayList<Integer>();
-    if (s == null || s.length() == 0 || l == null || l.length() == 0) {
+    if (s == null || l == null || s.length() == 0 || l.length() == 0) {
       return rst;
     }
-    int[] count = new int[26];
+    int[] map = new int[256];
     for (char c : s.toCharArray()) {
-      count[c - 'a']++;
+      map[c]++;
     }
-    int hashCode = getHash(count);
-    for (int i = 0; i <= l.length() - s.length(); i++) {
-      int[] temp = new int[26];
-      for (int j = 0; j < s.length(); j++) {
-        temp[l.charAt(i + j) - 'a']++;
+    int left = 0;
+    int right = 0;
+    int count = s.length();
+    while (right < l.length()) {
+      if (--map[l.charAt(right++)] >= 0) {
+        count--;
       }
-      if (getHash(temp) == hashCode) {
-        rst.add(i);
+      if (count == 0) {
+        rst.add(left);
+      }
+      if (right - left == s.length()) {
+        if (++map[l.charAt(left++)] >= 1) {
+          count++;
+        }
       }
     }
     return rst;
