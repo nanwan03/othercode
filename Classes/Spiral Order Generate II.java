@@ -8,37 +8,29 @@ public class Solution {
     int right = n - 1;
     int top = 0;
     int bottom = m - 1;
-    int k = 1;
-    while (left < right && top < bottom) {
-      for (int i = left; i < right; i++) {
-        rst[top][i] = k++;
-      }
-      for (int i = top; i < bottom; i++) {
-        rst[i][right] = k++;
-      }
-      for (int i = right; i > left; i--) {
-        rst[bottom][i] = k++;
-      }
-      for (int i = bottom; i > top; i--) {
-        rst[i][left] = k++;
-      }
-      left++;
-      right--;
-      top++;
-      bottom--;
-    }
-    if (left > right || top > bottom) {
-      return rst;
-    }
-    if (left == right) {
-      for (int i = top; i <= bottom; i++) {
-        rst[i][left] = k++;
-      }
-    } else {
-      for (int i = left; i <= right; i++) {
-        rst[top][i] = k++;
-      }
-    }
+    traverseTopRight(rst, left, right, top, bottom, 1);
     return rst;
+  }
+  private void traverseTopRight(int[][] rst, int left, int right, int top, int bottom, int k) {
+     for (int i = left; i <= right; ++i) {
+      rst[top][i] = k++;
+    }
+    for (int i = top + 1; i <= bottom; ++i) {
+      rst[i][right] = k++;
+    }
+    if (right > left && bottom > top) {
+      traverseBottomLeft(rst, left, right - 1, top + 1, bottom, k);
+    }
+  }
+  private void traverseBottomLeft(int[][] rst, int left, int right, int top, int bottom, int k) {
+    for (int i = right; i >= left; --i) {
+        rst[bottom][i] = k++;
+    }
+    for (int i = bottom - 1; i >= top; --i) {
+        rst[i][left] = k++;
+    }
+    if (right > left && bottom > top) {
+      traverseTopRight(rst, left + 1, right, top, bottom - 1, k);
+    }
   }
 }
