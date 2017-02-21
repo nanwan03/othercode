@@ -6,7 +6,6 @@ public class Solution {
     }
     char[] chars = input.toCharArray();
     StringBuilder sb = new StringBuilder();
-    char prev = chars[0];
     for (int i = 0; i < chars.length; i++) {
       char c = chars[i];
       if (Character.isLetter(c)) {
