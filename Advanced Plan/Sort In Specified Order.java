@@ -1,5 +1,5 @@
 public class Solution {
-  public int[] sort(int[] A1, int[] A2) {
+  public int[] sortSpecial(int[] A1, int[] A2) {
 	    // Write your solution here.
 	    if (A1 == null || A1.length == 0) {
 	      return new int[0];
