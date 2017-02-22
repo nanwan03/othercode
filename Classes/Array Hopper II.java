@@ -1,19 +1,27 @@
 public class Solution {
   public int minJump(int[] array) {
-    // write your solution here
+    // Write your solution here.
     if (array == null || array.length == 0) {
-      return 0;
+      return -1;
     }
-    int[] dp = new int[array.length];
-    dp[0] = 0;
-    for (int i = 1; i < array.length; i++) {
-      dp[i] = Integer.MAX_VALUE;
-      for (int j = 0; j < i && dp[i] == Integer.MAX_VALUE; j++) {
-        if (dp[j] != Integer.MAX_VALUE && array[j] >= i - j) {
-          dp[i] = Math.min(dp[i], dp[j] + 1);
-        }
+    int start = 0;
+    int maxCover = 0;
+    int step = 0;
+    while (maxCover < array.length - 1) {
+      step++;
+      int max = 0;
+      for (int i = start; i <= maxCover; ++i) {
+        max = Math.max(max, i + array[i]);
+      }
+      if (maxCover == max) {
+        return -1;
+      }
+      start = maxCover + 1;
+      maxCover = Math.max(max, maxCover);
+      if (maxCover >= array.length - 1) {
+        break;
       }
     }
-    return dp[array.length - 1] == Integer.MAX_VALUE ? -1 : dp[array.length - 1];
+    return step;
   }
 }
