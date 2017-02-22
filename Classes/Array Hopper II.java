@@ -13,7 +13,7 @@ public class Solution {
       for (int i = start; i <= maxCover; ++i) {
         max = Math.max(max, i + array[i]);
       }
-      if (maxCover == max) {
+      if (max <= maxCover) {
         return -1;
       }
       start = maxCover + 1;
