@@ -1,14 +1,5 @@
-/* 
-* class Pair {
-*   public int first;
-*   public int second;
-*   public Pair(int first, int second) {
-*     this.first = first;   
-*     this.second = second;
-* }
-*/
 public class Solution {
-  public Pair largestAndSmallest(int[] array) {
+  public int[] largestAndSmallest(int[] array) {
     // write your solution here
     // return a Pair object, the field first is the largest
     // and field second is the smallest.
@@ -26,7 +17,7 @@ public class Solution {
         small.add(Math.min(array[i], array[i + 1]));
       }
     }
-    return new Pair(findLarge(large), findSmall(small));
+    return new int[]{findLarge(large), findSmall(small)};
   }
   private int findLarge(List<Integer> list) {
     int max = Integer.MIN_VALUE;
