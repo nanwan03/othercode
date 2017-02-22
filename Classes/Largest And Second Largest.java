@@ -1,10 +1,10 @@
 public class Solution {
 	private class Pair {
-		int first;
-		int second;
-		Pair(int first, int second) {
-			this.first = first;
-			this.second = second;
+		int index;
+		int val;
+		Pair(int index, int val) {
+			this.index = index;
+			this.val = val;
 		}
 	}
   public int[] largestAndSecond(int[] array) {
@@ -30,22 +30,22 @@ public class Solution {
     	list = nextRound;
     }
     
-    return new int[]{list.get(0).second, findMax(map.get(list.get(0).first))};
+    return new int[]{list.get(0).val, findMax(map.get(list.get(0).index))};
   }
   
   private void compare(Pair p1, Pair p2, Map<Integer, List<Integer>> map, List<Pair> nextRound) {
-	  if (p1.second <= p2.second) {
+	  if (p1.val <= p2.val) {
 		  nextRound.add(p2);
-		  if (!map.containsKey(p2.first)) {
-			  map.put(p2.first, new ArrayList<Integer>());
+		  if (!map.containsKey(p2.index)) {
+			  map.put(p2.index, new ArrayList<Integer>());
 		  }
-		  map.get(p2.first).add(p1.second);
+		  map.get(p2.index).add(p1.val);
 	  } else {
 		  nextRound.add(p1);
-		  if (!map.containsKey(p1.first)) {
-			  map.put(p1.first, new ArrayList<Integer>());
+		  if (!map.containsKey(p1.index)) {
+			  map.put(p1.index, new ArrayList<Integer>());
 		  }
-		  map.get(p1.first).add(p2.second);
+		  map.get(p1.index).add(p2.val);
 	  }
   }
   
