@@ -1,73 +1,61 @@
 public class Solution {
-  private class Node {
-    int x;
-    int y;
-    int value;
-    Node(int x, int y, int value) {
-      this.x = x;
-      this.y = y;
-      this.value = value;
-    }
+  private class Node implements Comparable<Node> {
+        int x;
+        int y;
+        int val;
+        Node(int x, int y, int val) {
+            this.x = x;
+            this.y = y;
+            this.val = val;
+        }
+        @Override
+        public int compareTo(Node node) {
+            return this.val - node.val;
+        }
   }
-  private class NodeComparator implements Comparator<Node> {
-    public int compare(Node a, Node b) {
-      return a.value - b.value;
-    }
-  }
+  private int[][] dirs = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
   public int maxTrapped(int[][] matrix) {
     if (matrix == null || matrix.length == 0) {
-      return 0;
+            return 0;
     }
     int row = matrix.length;
     int col = matrix[0].length;
-    int[][] level = new int[row][col];
-    Queue<Node> heap = new PriorityQueue<Node>(row * col, new NodeComparator());
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < col; j++) {
-        if (i == 0 || i == row - 1 || j == 0 || j == col - 1) {
-          level[i][j] = matrix[i][j];
-          heap.offer(new Node(i, j, matrix[i][j]));
-        } else {
-          level[i][j] = Integer.MAX_VALUE;
+    boolean[][] visited = new boolean[row][col];
+    Queue<Node> heap = new PriorityQueue<Node>();
+    for (int i = 0; i < row; ++i) {
+        for (int j = 0; j < col; ++j) {
+            if (i == 0 || i == row - 1 || j == 0 || j == col - 1) {
+                visited[i][j] = true;
+                heap.offer(new Node(i, j, matrix[i][j]));
+            }
         }
-      }
-    }
-    while (!heap.isEmpty()) {
-      Node node = heap.poll();
-      List<Node> neighbors = getNeighbor(node, row, col, level);
-      for (Node neighbor : neighbors) {
-        int temp = neighbor.value;
-        neighbor.value = Math.max(matrix[neighbor.x][neighbor.y], Math.min(level[neighbor.x][neighbor.y], level[node.x][node.y]));
-        if (neighbor.value != temp) {
-          heap.offer(neighbor);
-          level[neighbor.x][neighbor.y] = neighbor.value;
-        }
-      }
     }
     int rst = 0;
-    for (int i = 0; i < row; i++) {
-      for (int j = 0; j < col; j++) {
-        rst += Math.max(0, level[i][j] - matrix[i][j]);
-      }
+    int max = Integer.MIN_VALUE;
+    while (!heap.isEmpty()) {
+        Node node = heap.poll();
+        max = Math.max(max, node.val);
+        List<Node> neighbors = getNeighbor(node, row, col, matrix, visited);
+        for (Node neighbor : neighbors) {
+            heap.offer(neighbor);
+            rst += Math.max(0, max - neighbor.val);
+        }
     }
     return rst;
   }
-  private List<Node> getNeighbor(Node node, int row, int col, int[][] level) {
-    int x = node.x;
-    int y = node.y;
-    List<Node> rst = new ArrayList<Node>();
-    if (x - 1 > 0) {
-      rst.add(new Node(x - 1, y, level[x - 1][y]));
+  private List<Node> getNeighbor(Node node, int row, int col, int[][] heightMap, boolean[][] visited) {
+        int x = node.x;
+        int y = node.y;
+        List<Node> rst = new ArrayList<Node>();
+        for (int[] dir : dirs) {
+            int newX = x + dir[0];
+            int newY = y + dir[1];
+            if (newX < 0 || newY < 0 || newX >= row || newY >= col || visited[newX][newY]) {
+                continue;
+            }
+            visited[newX][newY] = true;
+            rst.add(new Node(newX, newY, heightMap[newX][newY]));
+        }
+        return rst;
     }
-    if (x + 1 < row) {
-      rst.add(new Node(x + 1, y, level[x + 1][y]));
-    }
-    if (y - 1 > 0) {
-      rst.add(new Node(x, y - 1, level[x][y - 1]));
-    }
-    if (y + 1 < col) {
-      rst.add(new Node(x, y + 1, level[x][y + 1]));
-    }
-    return rst;
-  }
 }
