@@ -20,7 +20,7 @@ public class Solution {
       return false;
     }
     target -= root.key;
-    if (root.left == null && root.right == null && target == 0) {
+    if (target == 0) {
       return true;
     }
     return hasPathSum(root.left, target) || hasPathSum(root.right, target);
