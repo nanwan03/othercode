@@ -27,12 +27,9 @@ public class Solution {
     return root;
   }
   private int findNext(int[] post, int left, int right, int target) {
-    int cur = right;
-    for (;cur >= left; cur--) {
-      if (post[cur] < target) {
-        return cur;
-      }
+    while (right >= left && post[right] >= target) {
+      right--;
     }
-    return cur;
+    return right;
   }
 }
