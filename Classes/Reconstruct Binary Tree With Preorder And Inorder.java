@@ -9,9 +9,10 @@
  * }
  */
 public class Solution {
-  public TreeNode reconstruct(int[] pre, int[] in) {
-    if (pre.length != in.length) {
-            return null;
+  public TreeNode reconstruct(int[] in, int[] pre) {
+    // Write your solution here.
+    if (in.length != pre.length) {
+      return null;
     }
     return buildBST(in, 0, in.length - 1, pre, 0, pre.length - 1);
   }
