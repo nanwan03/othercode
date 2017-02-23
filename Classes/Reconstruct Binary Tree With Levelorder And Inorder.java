@@ -9,9 +9,9 @@
  * }
  */
 public class Solution {
-  public TreeNode reconstruct(int[] level, int[] in) {
-    // write your solution here
-    if (level == null ||  level.length == 0) {
+  public TreeNode reconstruct(int[] in, int[] level) {
+    // Write your solution here.
+    if (in.length != level.length) {
       return null;
     }
     return buildTree(level, in, 0, in.length - 1);
@@ -40,15 +40,13 @@ public class Solution {
 		          left[indexL++] = level[j];
 		        }
 	      }
-	    }
-	    
-	    for (int j = 1; j < level.length; j++) {
-	    	for (int i = k + 1; i <= inRight; i++) {
+	      for (int i = k + 1; i <= inRight; i++) {
 		        if (level[j] == in[i]) {
 		          right[indexR++] = level[j];
 		        }
 	      }
 	    }
+	    
     root.left = buildTree(left, in, inLeft, k - 1);
     root.right = buildTree(right, in, k + 1, inRight);
     return root;
