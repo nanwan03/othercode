@@ -1,5 +1,17 @@
 public class Solution {
-  public int kth(int[] a, int[] b, int k) {
+  public double median(int[] a, int[] b) {
+    Arrays.sort(a);
+    Arrays.sort(b);
+    int length = a.length + b.length;
+    int middle = kth(a, b, length / 2 + 1);
+    if ((length & 0x01) == 0) {
+      int middleNext = kth(a, b, length / 2);
+      return (double)(middle + middleNext) / 2.0;
+    } else {
+      return (double)(middle);
+    }
+  }
+  private int kth(int[] a, int[] b, int k) {
     // Write your solution here.
 	if (k > a.length + b.length) {
 		return -1;
