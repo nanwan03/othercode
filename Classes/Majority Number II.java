@@ -34,6 +34,14 @@ public class Solution {
         count2++;
       }
     }
+    if (candidate1 > candidate2) {
+      int temp = candidate1;
+      candidate1 = candidate2;
+      candidate2 = temp;
+      temp = count1;
+      count1 = count2;
+      count2 = temp;
+    }
     if (count1 > array.length / 3) {
       rst.add(candidate1);
     }
