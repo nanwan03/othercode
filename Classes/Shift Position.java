@@ -10,10 +10,8 @@ public class Solution {
       int mid = left + (right - left) / 2;
       if (array[left] < array[mid]) {
         left = mid + 1;
-      } else if (array[mid] < array[right]) {
-        right = mid;
       } else {
-        left = mid;
+        right = mid;
       }
     }
     return array[left] < array[right] ? left : right;
