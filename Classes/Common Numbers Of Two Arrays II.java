@@ -1,8 +1,9 @@
+
 public class Solution {
-  public List<Integer> common(int[] A, int[] B) {
+  public List<Integer> common(List<Integer> A, List<Integer> B) {
     //write your solution here
     List<Integer> rst = new ArrayList<Integer>();
-    if (A == null || A.length == 0 || B == null || B.length == 0) {
+    if (A == null || A.size() == 0 || B == null || B.size() == 0) {
       return rst;
     }
     Map<Integer, Integer> map = new HashMap<Integer, Integer>();
@@ -19,6 +20,7 @@ public class Solution {
         map.put(i, map.get(i) - 1);
       }
     }
+    Collections.sort(rst);
     return rst;
   }
 }
