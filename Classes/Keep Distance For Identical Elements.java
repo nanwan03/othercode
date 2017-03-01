@@ -7,20 +7,16 @@ public class Solution {
     int[] items = new int[2 * k];
     boolean[] isused = new boolean[k + 1];
     int[] rst = null;
-    rst = helper(rst, items, isused, k, k);
+    rst = helper(rst, items, 0, isused, k);
     return rst;
   }
-  private int[] helper(int[] rst, int[] items, boolean[] isused, int k, int left) {
-    if (left == 0) {
+  private int[] helper(int[] rst, int[] items, int index, boolean[] isused, int k) {
+    if (index == items.length) {
       rst = Arrays.copyOf(items, items.length);
       return rst;
     }
     if (rst != null) {
     	return rst;
-    }
-    int index = 0;
-    while (index < items.length && items[index] != 0) {
-    	index++;
     }
      for (int i = 1; i <= k; ++i) {
       if (!isused[i] && index + i + 1 < items.length
@@ -28,7 +24,11 @@ public class Solution {
         items[index] = i;
         items[index + i + 1] = i;
         isused[i] = true;
-        rst = helper(rst, items, isused, k, left - 1);
+        int nextIndex = index + 1;
+        while (nextIndex < items.length && items[nextIndex] != 0) {
+          nextIndex++;
+        }
+        rst = helper(rst, items, nextIndex, isused, k);
         isused[i] = false;
         items[index] = 0;
         items[index + i + 1] = 0;
