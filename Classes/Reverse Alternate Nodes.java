@@ -14,32 +14,26 @@ public class Solution {
     if (head == null || head.next == null) {
       return head;
     }
-    ListNode dummy = head;
-    ListNode newNode = head.next;
-    head.next = head.next.next;
-    head = head.next;
-    ListNode curNewNode = newNode;
-    
-    while (head != null && head.next != null) {
-      newNode.next = head.next;
-      newNode = newNode.next;
-      
-      head.next = head.next.next;
+    ListNode oddDummy = new ListNode(0);
+    ListNode oddHead = oddDummy;
+    ListNode evenDummy = new ListNode(0);
+    ListNode evenHead = evenDummy;
+    int flag = 1;
+    while (head != null) {
+      if (flag == 1) {
+        oddHead.next = head;
+        oddHead = oddHead.next;
+      } else {
+        evenHead.next = head;
+        evenHead = evenHead.next;
+      }
+      flag ^= 1;
       head = head.next;
     }
-    ListNode tail = findTail(dummy);
-    newNode.next = null;
-    
-    ListNode anotherHead = reverse(curNewNode);
-    tail.next = anotherHead;
-    return dummy;
-  }
-  
-  private ListNode findTail(ListNode head) {
-	  while (head.next != null) {
-		  head = head.next;
-	  }
-	  return head;
+    evenHead.next = null;
+    ListNode tail = reverse(evenDummy.next);
+    oddHead.next = tail;
+    return oddDummy.next;
   }
   
   private ListNode reverse(ListNode head) {
