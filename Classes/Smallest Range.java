@@ -41,8 +41,8 @@ public class Solution {
   		int nextValue = arrays[array][index + 1];
   		Node nextNode = new Node(nextValue, array, index + 1);
   		heap.offer(nextNode);
+  		min = heap.peek().value;
   		max = Math.max(max, nextValue);
-  		min = Math.min(heap.peek().value, nextValue);
   		if (max - min < maxRst - minRst) {
   			maxRst = max;
   			minRst = min;
