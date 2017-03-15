@@ -8,11 +8,11 @@ public class Solution<K, V> {
   }
   
   public void set(K key, V value) {
-    if (cache.size() == size) {
-      cache.remove(cache.entrySet().iterator().next().getKey());
-    }
     if (cache.containsKey(key)) {
       cache.remove(key);
+    }
+    if (cache.size() == size) {
+      cache.remove(cache.entrySet().iterator().next().getKey());
     }
     cache.put(key,value);
   }
