@@ -4,36 +4,34 @@ public class Solution {
     if (k <= 2) {
       return null;
     }
-    int[] items = new int[2 * k];
+    int[] items = new int[k * 2];
     boolean[] isused = new boolean[k + 1];
-    int[] rst = null;
-    rst = helper(rst, items, 0, isused, k);
-    return rst;
+    return helper(items, 0, isused, k);
   }
-  private int[] helper(int[] rst, int[] items, int index, boolean[] isused, int k) {
+  private int[] helper(int[] items, int index, boolean[] isused, int k) {
     if (index == items.length) {
-      rst = Arrays.copyOf(items, items.length);
-      return rst;
+      return Arrays.copyOf(items, items.length);
     }
-    if (rst != null) {
-    	return rst;
-    }
-     for (int i = 1; i <= k; ++i) {
-      if (!isused[i] && index + i + 1 < items.length
-          && items[index] == 0 && items[index + i + 1] == 0) {
-        items[index] = i;
-        items[index + i + 1] = i;
-        isused[i] = true;
-        int nextIndex = index + 1;
-        while (nextIndex < items.length && items[nextIndex] != 0) {
-          nextIndex++;
+    int[] rst = null;
+    for (int i = 1; i <= k; ++i) {
+      if (!isused[i] && index + 1 + i < items.length
+        && items[index] == 0 && items[index + 1 + i] == 0) {
+          items[index] = i;
+          items[index + 1 + i] = i;
+          isused[i] = true;
+          int nextIndex = index + 1;
+          while (nextIndex < items.length && items[nextIndex] != 0) {
+            nextIndex++;
+          }
+          rst = helper(items, nextIndex, isused, k);
+          if (rst != null) {
+            return rst;
+          }
+          isused[i] = false;
+          items[index] = 0;
+          items[index + 1 + i] = 0;
         }
-        rst = helper(rst, items, nextIndex, isused, k);
-        isused[i] = false;
-        items[index] = 0;
-        items[index + i + 1] = 0;
-      }
     }
-     return rst;
+    return rst;
   }
 }
