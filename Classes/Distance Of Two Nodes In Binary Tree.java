@@ -1,3 +1,4 @@
+
 /**
  * public class TreeNode {
  *   public int key;
@@ -11,48 +12,44 @@
 public class Solution {
   public int distance(TreeNode root, int k1, int k2) {
     // Write your solution here.
-    TreeNode ancester = commonAncester(root, k1, k2);
-    if (ancester == null) {
+    if (root == null) {
       return 0;
     }
-    int dist1 = findDist(root, ancester.key);
-    int dist2 = findDist(root, k1);
-    int dist3 = findDist(root, k2);
-    return (dist2 + dist3 - 2 * dist1);
-  }
-  public TreeNode commonAncester(TreeNode root, int k1, int k2) {
-    if (root == null) {
-      return null;
+    TreeNode ancestor = commonAncestor(root, k1, k2);
+    if (ancestor == null) {
+      return 0;
     }
-    if (root.key == k1 || root.key == k2) {
+    int dist = findDist(root, ancestor.key);
+    int dist1 = findDist(root, k1);
+    int dist2 = findDist(root, k2);
+    return dist1 + dist2 - 2 * dist;
+  }
+  private TreeNode commonAncestor(TreeNode root, int k1, int k2) {
+    if (root == null || root.key == k1 || root.key == k2) {
       return root;
     }
-    TreeNode left = commonAncester(root.left, k1, k2);
-    TreeNode right = commonAncester(root.right, k1, k2);
+    TreeNode left = commonAncestor(root.left, k1, k2);
+    TreeNode right = commonAncestor(root.right, k1, k2);
     if (left != null && right != null) {
       return root;
-    } else {
-      return left == null ? right : left;
     }
+    return left == null ? right : left;
   }
-  public int findDist(TreeNode root, int k) {
+  private int findDist(TreeNode root, int key) {
     if (root == null) {
-      return -1;
-    }
-    if (root.left == null && root.right == null && root.key != k) {
-      return -1;
-    }
-    if (root.key == k) {
       return 0;
     }
-    int left = findDist(root.left, k);
-    if (left != -1) {
+    if(root.key == key) {
+      return 1;
+    }
+    int left = findDist(root.left, key);
+    int right = findDist(root.right, key);
+    if (left != 0) {
       return 1 + left;
     }
-    int right = findDist(root.right, k);
-    if (right != -1) {
+    if (right != 0) {
       return 1 + right;
     }
-    return -1;
+    return 0;
   }
 }
