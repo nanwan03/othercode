@@ -14,10 +14,6 @@ public class Solution {
     if (root == null) {
       return root;
     }
-    if (root.left == null && root.right == null) {
-      root.key = 0;
-      return root;
-    }
     helper(root, 0);
     return root;
   }
