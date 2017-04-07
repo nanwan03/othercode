@@ -23,35 +23,7 @@ public class Solution {
     root.right = buildTree((start + end) / 2 + 1, end);
     return root;
   }
-  
-  private boolean isLeaf(SegmentTreeNode node) {
-    return node.start == node.end;
-  }
-  
-  private void removeLeaf(SegmentTreeNode root, int val) {
-    if (!findLeaf(root, val)) {
-      return;
-    }
-    removeNode(root, val);
-  }
-  
-  private boolean findLeaf(SegmentTreeNode root, int val) {
-    SegmentTreeNode cur = root;
-    while(cur != null) {
-      if(cur.start == val && cur.end == val) {
-        return true;
-      }
-      
-      int mid = cur.start + (cur.end - cur.start) / 2;
-      if(val <= mid) {
-          cur = cur.left;
-      } else {
-          cur = cur.right;
-      }
-    }
-    return false;
-  }
-  
+
   private void removeNode(SegmentTreeNode root, int val) {
     if(root == null) {
       return;
@@ -59,8 +31,10 @@ public class Solution {
     --root.cover;
     if(root.left != null && root.left.start == val && root.left.end == val) {
         root.left = null;
+        return;
     } else if(root.right != null && root.right.start == val && root.right.end == val) {
         root.right = null;
+        return;
     }
     int mid = root.start + (root.end - root.start) / 2;
     if(val <= mid) {
@@ -73,7 +47,7 @@ public class Solution {
   private int getKth(SegmentTreeNode root, int k) {
     SegmentTreeNode cur = root;
     while(cur != null) {
-        if(k == 0 && isLeaf(cur)) {
+        if(k == 0 && cur.left == null && cur.right == null) {
           return cur.start;
         }
         int leftCover = cur.left != null ? cur.left.cover : 0;
@@ -98,7 +72,7 @@ public class Solution {
     for (int i : array) {
       int kth = getKth(root, i);
       rst[index++] = kth;
-      removeLeaf(root, kth);
+      removeNode(root, kth);
     }
     return rst;
   }
