@@ -4,23 +4,20 @@ public class Solution {
     if (array == null || array.length == 0) {
       return -1;
     }
-    int start = 0;
     int maxCover = 0;
     int step = 0;
-    while (maxCover < array.length - 1) {
-      step++;
+    int start = 0;
+    for (int i = 0; maxCover < array.length - 1 && i < array.length;) {
       int max = 0;
-      for (int i = start; i <= maxCover; ++i) {
-        max = Math.max(max, i + array[i]);
+      step++;
+      for (int j = i; j <= maxCover; ++j) {
+        max = Math.max(max, j + array[j]);
       }
       if (max <= maxCover) {
         return -1;
       }
-      start = maxCover + 1;
-      maxCover = Math.max(max, maxCover);
-      if (maxCover >= array.length - 1) {
-        break;
-      }
+      i = maxCover + 1;
+      maxCover = max;
     }
     return step;
   }
