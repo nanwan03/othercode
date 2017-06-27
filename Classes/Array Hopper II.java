@@ -6,7 +6,6 @@ public class Solution {
     }
     int maxCover = 0;
     int step = 0;
-    int start = 0;
     for (int i = 0; maxCover < array.length - 1 && i < array.length;) {
       int max = 0;
       step++;
