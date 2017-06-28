@@ -1,3 +1,4 @@
+
 public class Solution {
   public double largest(double[][] matrix) {
     // write your solution here
@@ -25,11 +26,11 @@ public class Solution {
     double minSoFar = 1.0;
     double max = Double.NEGATIVE_INFINITY;
     for (double i : array) {
-      double tempMax = Math.max(Math.max(maxSoFar * i, minSoFar * i), i);
-      double tempMin = Math.min(Math.min(maxSoFar * i, minSoFar * i), i);
-      max = Math.max(max, tempMax);
-      maxSoFar = tempMax;
-      minSoFar = tempMin;
+      double tempMax = maxSoFar * i;
+      double tempMin = minSoFar * i;
+      maxSoFar = Math.max(i, Math.max(tempMax, tempMin));
+      minSoFar = Math.min(i, Math.min(tempMax, tempMin));
+      max = Math.max(max, maxSoFar);
     }
     return max;
   }
