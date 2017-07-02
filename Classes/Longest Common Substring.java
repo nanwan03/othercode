@@ -7,11 +7,8 @@ public class Solution {
     int[][] dp = new int[s.length() + 1][t.length() + 1];
     int longest = 0;
     int sIndex = -1;
-    for (int i = 0; i <= s.length(); i++) {
-      for (int j = 0; j <= t.length(); j++) {
-        if (i == 0 || j == 0) {
-          dp[i][j] = 0;
-        } else {
+    for (int i = 1; i <= s.length(); i++) {
+      for (int j = 1; j <= t.length(); j++) {
           if (s.charAt(i - 1) == t.charAt(j - 1)) {
             dp[i][j] = dp[i - 1][j - 1] + 1;
             if (dp[i][j] > longest) {
@@ -19,7 +16,6 @@ public class Solution {
               sIndex = i;
             }
           }
-        }
       }
     }
     if (longest == 0) {
