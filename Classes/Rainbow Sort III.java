@@ -5,12 +5,12 @@ public class Solution {
       return array;
     }
     int start = 0;
-    for (int i = 1; i < k; ++i) {
+    for (int i = 1; i <= k; ++i) {
       start = sort(array, start, i);
     }
     return array;
   }
-  private int sort(int[] colors, int target, int start) {
+  private int sort(int[] colors, int start, int target) {
         int left = start;
         int cur = start;
         int right = colors.length - 1;
