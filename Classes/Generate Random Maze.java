@@ -1,3 +1,5 @@
+import Solution.Direction;
+
 public class Solution {
   private static enum Direction {
     UP(-1, 0), DOWN(1, 0), LEFT(0, -1), RIGHT(0, 1);
@@ -42,13 +44,12 @@ public class Solution {
   }
   private Direction[] getRandomDirections() {
     Direction[] dirs = Direction.values();
-    for (int i = 0; i < dirs.length; i++) {
+    for (int i = dirs.length - 1; i >= 0; i--) {
       int r = (int)(Math.random() * (i + 1));
-      if (r == 0) {
-        Direction temp = dirs[0];
-        dirs[0] = dirs[i];
+        Direction temp = dirs[r];
+        dirs[r] = dirs[i];
         dirs[i] = temp;
-      }
+
     }
     return dirs;
   }
