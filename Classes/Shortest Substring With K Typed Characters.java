@@ -1,31 +1,30 @@
 public class Solution {
   public String shortest(String input, int k) {
     // Write your solution here.
-	if (input == null || input.length() < k) {
-		return "";
-	}
-	int left = 0;
-	int leftRst = -1;
-	int rightRst = input.length();
-	int[] map = new int[256];
-	int types = 0;
-	for (int i = 0; i < input.length(); ++i) {
-		if (map[input.charAt(i)]++ == 0) {
-			types++;
-		}
-		if (types == k) {
-			while (map[input.charAt(left)]-- > 1) {
-				left++;
-			}
-			if (i - left < rightRst - leftRst) {
-				leftRst = left;
-				rightRst = i;
-			}
-			left++;
-			types--;
-		}
-	}
-	
-    return leftRst == -1 ?  "" : input.substring(leftRst, rightRst + 1);
+    if (input == null || input.length() == 0) {
+      return input;
+    }
+    int[] total = new int[256];
+    int start = -1;
+    int end = input.length();
+    int type = 0;
+    int left = 0;
+    for (int i = 0; i < input.length(); ++i) {
+      if (++total[input.charAt(i)] == 1) {
+        type++;
+      }
+      if (type == k) {
+        while (--total[input.charAt(left)] > 0) {
+          left++;
+        }
+        if (i - left < end - start) {
+          start = left;
+          end = i;
+        }
+        left++;
+        type--;
+      }
+    }
+    return start == -1 ?  "" : input.substring(start, end + 1);
   }
 }
