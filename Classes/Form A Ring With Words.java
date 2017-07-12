@@ -1,33 +1,32 @@
 public class Solution {
   public boolean formRing(String[] input) {
     // Write your solution here.
-	if (input == null || input.length == 0) {
-		return false;
-	}
+    if (input == null || input.length == 0) {
+      return false;
+    }
+    Deque<String> deque = new LinkedList<String>();
+    for (String str : input) {
+      deque.offerFirst(str);
+    }
     List<String> items = new ArrayList<String>();
-    boolean[] isused = new boolean[input.length];
-    return helper(items, input, isused, input.length);
-    
+    return helper(items, deque, input.length);
   }
-  private boolean helper(List<String> items, String[] input, boolean[] isused, int left) {
-	  if (left == 0) {
-		  return items.get(0).charAt(0) == items.get(items.size() - 1).charAt(items.get(items.size() - 1).length() - 1);
-	  }
-	  for (int i = 0; i < input.length; ++i) {
-		  if (!isused[i]
-				  && (items.size() == 0 
-				  		|| items.get(items.size() - 1).charAt(items.get(items.size() - 1).length() - 1) == input[i].charAt(0))) {
-			  items.add(input[i]);
-			  isused[i] = true;
-			  boolean flag = helper(items, input, isused, left - 1);
-			  if (flag) {
-				  return true;
-			  }
-			  isused[i] = false;
-			  items.remove(items.size() - 1);
-				  
-		  }
-	  }
-	  return false;
+  private boolean helper(List<String> items, Deque<String> deque, int size) {
+    if (items.size() == size) {
+      return items.get(0).charAt(0) == items.get(size - 1).charAt(items.get(size - 1).length() - 1);
+    }
+    int length = deque.size();
+    for (int i = 0; i < length; ++i) {
+      String str = deque.pollFirst();
+      if (items.isEmpty() || items.get(items.size() - 1).charAt(items.get(items.size() - 1).length() - 1) == str.charAt(0)) {
+        items.add(str);
+        if (helper(items, deque, size)) {
+          return true;
+        }
+        items.remove(items.size() - 1);
+      }
+      deque.offerLast(str);
+    }
+    return false;
   }
 }

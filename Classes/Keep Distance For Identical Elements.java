@@ -1,33 +1,38 @@
 public class Solution {
   public int[] keepDistance(int k) {
     // Write your solution here.
+    int[] rst = new int[k * 2];
     if (k == 0) {
-      return null;
+      return rst;
     }
-    boolean[] isused = new boolean[k + 1];
-    return helper(new int[k * 2], k, isused, 0);
-  }
-  private int[] helper(int[] items, int k, boolean[] isused, int index) {
-    if (index == items.length) {
-      return items;
-    }
+    Deque<Integer> deque = new LinkedList<Integer>();
     for (int i = 1; i <= k; ++i) {
-      if (!isused[i] && index + 1 + i < items.length 
-          && items[index] == 0 && items[index + 1 + i] == 0) {
-        items[index] = i;
-        items[index + 1 + i] = i;
-        isused[i] = true;
-        int nextIndex = index + 1;
-        while (nextIndex < items.length && items[nextIndex] != 0) {
-          nextIndex++;
+      deque.offerFirst(i);
+    }
+    return helper(rst, deque, 0);
+  }
+  private int[] helper(int[] rst, Deque<Integer> deque, int index) {
+    if (index == rst.length) {
+      return rst;
+    }
+    int size = deque.size();
+    for (int i = 0; i < size; ++i) {
+      int cur = deque.pollFirst();
+      int nextIndex = cur + index + 1;
+      if (index < rst.length && nextIndex < rst.length && rst[index] == 0 && rst[nextIndex] == 0) {
+        rst[index] = cur;
+        rst[nextIndex ] = cur;
+        int nextCur = index + 1;
+        while (nextCur < rst.length && rst[nextCur] != 0) {
+          nextCur++;
         }
-        if (helper(items, k, isused, nextIndex) != null) {
-          return items;
+        if(helper(rst, deque, nextCur) != null) {
+          return rst;
         }
-        isused[i] = false;
-        items[index] = 0;
-        items[index + 1 + i] = 0;
+        rst[index] = 0;
+        rst[nextIndex] = 0;
       }
+      deque.offerLast(cur);
     }
     return null;
   }
