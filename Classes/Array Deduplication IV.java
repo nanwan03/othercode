@@ -1,23 +1,23 @@
 public class Solution {
   public int[] dedup(int[] array) {
+    // Write your solution here.
     if (array == null || array.length == 0) {
-    	return array;
+      return array;
     }
-    Stack<Integer> stack = new Stack<Integer>();
-    for (int i = 0; i < array.length; i++) {
-    	if (stack.isEmpty() || stack.peek() != array[i]) { 
-    		stack.push(array[i]);
-    	} else {
-    		while (i + 1 < array.length && array[i] == array[i + 1]) {
-    			i++;
-    		}
-    		stack.pop();
-    	}
+    int index = 0;
+    for (int i = 0; i < array.length; ++i) {
+      if (index == 0 || array[index - 1] != array[i]) {
+        array[index++] = array[i];
+      } else {
+        index--;
+        while (i + 1 < array.length && array[i + 1] == array[i]) {
+          i++;
+        }
+      }
     }
-    int size = stack.size();
-    int[] rst = new int[size];
-    while (!stack.isEmpty()) {
-    	rst[--size] = stack.pop();
+    int[] rst = new int[index];
+    for (int i = 0; i < rst.length; ++i) {
+      rst[i] = array[i];
     }
     return rst;
   }
