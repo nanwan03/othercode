@@ -1,19 +1,24 @@
 public class Solution {
   public boolean canBreak(String input, String[] dict) {
-    boolean[] dp = new boolean[input.length()];
+    // Write your solution here.
     Set<String> set = new HashSet<String>(Arrays.asList(dict));
-    dp[0] = true;
-    for (int i = 0; i < input.length(); i++) {
-      if (set.contains(input.substring(0, i + 1))) {
-        dp[i] = true;
-      } else {
-        for (int j = 0; j < i && !dp[i]; j++) {
-          if (dp[j] && set.contains(input.substring(j + 1, i + 1))) {
-            dp[i] = true;
-          }
-        }
-      }
+    if (input == null || input.length() == 0) {
+      return set.isEmpty();
     }
-    return dp[input.length() - 1];
+    int maxLength = 0;
+    for (String word : set) {
+        maxLength = Math.max(maxLength, word.length());
+    }
+    int size = input.length();
+    boolean[] dp = new boolean[size + 1];
+    dp[0] = true;
+    for (int i = 1; i <= size; i++) {
+        for (int j = i - 1; j >= 0 && !dp[i] && i - j <= maxLength; j--) {
+            if (dp[j] && set.contains(input.substring(j, i))) {
+                dp[i] = true;
+            }
+        }
+    }
+    return dp[size];
   }
 }
