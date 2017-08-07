@@ -1,31 +1,43 @@
+
 public class Solution {
   public int longestBitonic(int[] array) {
     // Write your solution here.
     if (array == null || array.length == 0) {
       return 0;
     }
-    int[] lis = new int[array.length];
-    int[] lds = new int[array.length];
-    Arrays.fill(lis, 1);
-    Arrays.fill(lds, 1);
-    for (int i = 1; i < array.length; ++i) {
-      for (int j = 0; j < i; ++j) {
-        if (array[i] > array[j] && lis[i] < lis[j] + 1) {
-          lis[i] = lis[j] + 1;
-        }
+    int size = array.length;
+    int[] dpL = new int[size];
+    int[] dpR = new int[size];
+    int[] left = new int[size];
+    int[] right = new int[size];
+    int rstL = 0;
+    int rstR = 0;
+    for (int i = 0; i < size; ++i) {
+      int index = Arrays.binarySearch(dpL, 0, rstL, array[i]);
+      if (index < 0) {
+        index = -(index + 1);
       }
-    }
-    for (int i = array.length - 2; i >= 0; --i) {
-      for (int j = array.length - 1; j > i; --j) {
-        if (array[i] > array[j] && lds[i] < lds[j] + 1) {
-          lds[i] = lds[j] + 1;
-        }
+      dpL[index] = array[i];
+      if (index == rstL) {
+        rstL++;
       }
+      left[i] = rstL;
+      
+      index = Arrays.binarySearch(dpR, 0, rstR, array[size - 1 - i]);
+      if (index < 0) {
+        index = -(index + 1);
+      }
+      dpR[index] = array[size - 1 - i];
+      if (index == rstR) {
+        rstR++;
+      }
+      right[size - 1 - i] = rstR;
     }
-    int max = lis[0] + lds[0] - 1;
-    for (int i = 1; i < array.length; ++i) {
-      max = Math.max(max, lis[i] + lds[i] - 1);
+
+    int rst = 0;
+    for (int i = 0; i < size; ++i) {
+      rst = Math.max(rst, left[i] + right[i] - 1);
     }
-    return max;
+    return rst;
   }
 }
