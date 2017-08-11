@@ -1,24 +1,21 @@
 public class Solution {
   public int missing(int[] array) {
-    // write your solution here
+    // Write your solution here.
     if (array == null || array.length == 0) {
       return 1;
     }
-    for (int i = 0; i < array.length; i++) {
-      while (array[i] > 0 && array[i] <= array.length && array[i] != i + 1) {
-        int temp = array[array[i] - 1];
-        if (temp == array[i]) {
-          break;
-        }
-        array[array[i] - 1] = array[i];
-        array[i] = temp;
+    for (int i : array) {
+      if (Math.abs(i) - 1 >= 0 && Math.abs(i) - 1 < array.length && array[Math.abs(i) - 1] > 0) {
+        array[Math.abs(i) - 1] *= -1;
       }
     }
-    for (int i = 0; i < array.length; i++) {
-      if (array[i] != i + 1) {
-        return i + 1;
+    int rst = 0;
+    while (rst < array.length) {
+      if (array[rst] > 0) {
+        break;
       }
+      rst++;
     }
-    return array.length + 1;
+    return rst + 1;
   }
 }
