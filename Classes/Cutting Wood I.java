@@ -12,11 +12,15 @@ public class Solution {
     }
     int size = helper.length;
     int[][] dp = new int[size][size];
-    for (int end = 0; end < size; ++end) {
+    for (int end = 1; end < size; ++end) {
       for (int start = end; start >= 0; --start) {
-        dp[start][end] = (start == end || start == end - 1) ? 0 : Integer.MAX_VALUE / 2;
-        for (int k = end; k >= start; --k) {
-          dp[start][end] = Math.min(dp[start][end], dp[start][k] + dp[k][end] + helper[end] - helper[start]);
+        if (start == end || start == end - 1) {
+          dp[start][end] = 0;
+        } else {
+          dp[start][end] = Integer.MAX_VALUE;
+          for (int k = end - 1; k >= start; --k) {
+            dp[start][end] = Math.min(dp[start][end], dp[start][k] + dp[k][end] + helper[end] - helper[start]);
+          }
         }
       }
     }
