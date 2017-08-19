@@ -8,22 +8,18 @@ public class Solution {
     for (String str : input) {
       deque.offerFirst(str);
     }
-    List<String> items = new ArrayList<String>();
-    return helper(items, deque, input.length);
+    return helper(deque, "", "", 0, input.length);
   }
-  private boolean helper(List<String> items, Deque<String> deque, int size) {
-    if (items.size() == size) {
-      return items.get(0).charAt(0) == items.get(size - 1).charAt(items.get(size - 1).length() - 1);
+  private boolean helper(Deque<String> deque, String head, String prev, int size, int total) {
+    if (size == total) {
+      return prev.charAt(prev.length() - 1) == head.charAt(0);
     }
-    int length = deque.size();
-    for (int i = 0; i < length; ++i) {
+    for (int i = 0; i < deque.size(); ++i) {
       String str = deque.pollFirst();
-      if (items.isEmpty() || items.get(items.size() - 1).charAt(items.get(items.size() - 1).length() - 1) == str.charAt(0)) {
-        items.add(str);
-        if (helper(items, deque, size)) {
+      if (size == 0 || prev.charAt(prev.length() - 1) == str.charAt(0)) {
+        if (helper(deque, size == 0 ? str : head, str, size + 1,total)) {
           return true;
         }
-        items.remove(items.size() - 1);
       }
       deque.offerLast(str);
     }
