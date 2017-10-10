@@ -1,78 +1,76 @@
+
 public class Solution {
-  static class Pair {
-		int x;
-		int y;
-		Pair(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-	}
   public List<Integer> putChair(char[][] gym) {
+    // write your solution here
     List<Integer> rst = new ArrayList<Integer>();
-    if (gym == null || gym.length == 0) {
+    if (gym == null || gym.length == 0 || gym[0].length == 0) {
       return rst;
     }
-    int row = gym.length;
-    int col = gym[0].length;
-  	int shortest = Integer.MAX_VALUE;
-  	int x = 0;
-  	int y = 0;
-  	for (int i = 0 ; i < row; i++) {
-  		for (int j = 0; j < col; j++) {
-  			int cost = putChair(gym, i, j);
-  			if (cost < shortest) {
-  				shortest = cost;
-  				x = i;
-  				y = j;
-  			}
-  		}
-  	}
-  	rst.add(x);
-  	rst.add(y);
-  	return rst;
+    List<Integer> sumx = new ArrayList<Integer>();
+    List<Integer> sumy = new ArrayList<Integer>();
+    List<Integer> x = new ArrayList<Integer>();
+    List<Integer> y = new ArrayList<Integer>();
+    for (int i = 0; i < gym.length; ++i) {
+      for (int j = 0; j < gym[0].length; ++j) {
+        if (gym[i][j] == 'E') {
+          x.add(i);
+          y.add(j);
+        }
+      }
+    }
+    Collections.sort(x);
+    Collections.sort(y);
+    sumx.add(0);
+    sumy.add(0);
+    for (int i = 1; i <= x.size(); ++i) {
+      sumx.add(sumx.get(i - 1) + x.get(i - 1));
+      sumy.add(sumy.get(i - 1) + y.get(i - 1));
+    }
+    int sum = Integer.MAX_VALUE;
+    int rstX = -1;
+    int rstY = -1;
+    for (int i = 0; i < gym.length; ++i) {
+      for (int j = 0; j < gym[0].length; ++j) {
+        int costX = getCost(x, sumx, i);
+        int costY = getCost(y, sumy, j);
+        if (costX + costY < sum) {
+          sum = costX + costY;
+          rstX = i;
+          rstY = j;
+        }
+      }
+    }
+    rst.add(rstX);
+    rst.add(rstY);
+    return rst;
   }
-  private int putChair(char[][] gym, int i, int j) {
-		int row = gym.length;
-		int col = gym[0].length;
-		boolean[][] visited = new boolean[row][col];
-		Queue<Pair> queue = new LinkedList<Pair>();
-		queue.offer(new Pair(i, j));
-		visited[i][j] = true;
-		int level = 0;
-		int cost = 0;
-		while (!queue.isEmpty()) {
-			int size = queue.size();
-			for (int ith = 0; ith < size; ith++) {
-				Pair cur = queue.poll();
-				if (gym[cur.x][cur.y] == 'E') {
-					cost += level;
-				}
-				List<Pair> neighbors = getNeighbors(cur, gym, row, col);
-				for (Pair neighbor : neighbors) {
-					if (!visited[neighbor.x][neighbor.y]) {
-						queue.add(neighbor);
-						visited[neighbor.x][neighbor.y] = true;
-					}
-				}
-			}
-			level++;
-		}
-		return cost;
-	}
-	private List<Pair> getNeighbors(Pair cur, char[][] gym, int row, int col) {
-		List<Pair> neighbors = new ArrayList<Pair>();
-		if (cur.x + 1 < row) {
-			neighbors.add(new Pair(cur.x + 1, cur.y));
-		}
-		if (cur.x - 1 >= 0) {
-			neighbors.add(new Pair(cur.x - 1, cur.y));
-		}
-		if (cur.y + 1 < col) {
-			neighbors.add(new Pair(cur.x, cur.y + 1));
-		}
-		if (cur.y - 1 >= 0) {
-			neighbors.add(new Pair(cur.x, cur.y - 1));
-		}
-		return neighbors;
-	}
+  private int getCost(List<Integer> list, List<Integer> sum, int pos) {
+    if (list.size() == 0) {
+      return 0;
+    }
+    int size = list.size();
+    int index = getInsertPos(list, pos);
+    return sum.get(size) - sum.get(index) - pos * (size - index) + index * pos - sum.get(index);
+  }
+  private int getInsertPos(List<Integer> list, int pos) {
+    int left = 0;
+    int right = list.size() - 1;
+    while (left + 1 < right) {
+      int mid = (left + right) / 2;
+      if (list.get(mid) == pos) {
+        right = mid;
+      } else if (list.get(mid) < pos) {
+        left = mid;
+      } else {
+        right = mid;
+      }
+    }
+    if (list.get(left) >= pos) {
+      return left;
+    } else if (list.get(right) >= pos) {
+      return right;
+    } else {
+      return right + 1;
+    }
+  }
 }
