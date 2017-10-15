@@ -14,15 +14,17 @@ public class Solution {
           }
         }
         if (next < array.length) {
-          swap(array, i++, next++);
+          rightShift(array, i++, next++);
         }
       }
     }
     return array;
   }
-  private void swap(int[] array, int i, int j) {
-    int temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+  private void rightShift(int[] array, int left, int right) {
+    int temp = array[right];
+    for (int i = right - 1; i >= left; --i) {
+      array[i + 1] = array[i];
+    }
+    array[left] = temp;
   }
 }
